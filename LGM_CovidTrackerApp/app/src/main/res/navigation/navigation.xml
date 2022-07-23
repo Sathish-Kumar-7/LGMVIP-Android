@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navigation"
+            app:startDestination="@id/titleFragment">
+
+    <fragment android:id="@+id/titleFragment" android:name="com.example.lgm_covidtrackerapp.TitleFragment"
+              android:label="India Covid Tracker" tools:layout="@layout/fragment_title">
+        <action android:id="@+id/action_titleFragment_to_stateSelectionFragment"
+                app:destination="@id/stateSelectionFragment"/>
+    </fragment>
+    <fragment android:id="@+id/stateSelectionFragment"
+              android:name="com.example.lgm_covidtrackerapp.StateSelectionFragment"
+              android:label="India Stats" tools:layout="@layout/fragment_state_selection">
+        <action android:id="@+id/action_stateSelectionFragment_to_stateDetailFragment"
+                app:destination="@id/stateDetailFragment"/>
+    </fragment>
+    <fragment android:id="@+id/stateDetailFragment" android:name="com.example.lgm_covidtrackerapp.StateDetailFragment"
+              android:label="State Stats" tools:layout="@layout/fragment_state_detail">
+        <argument android:name="stateName" app:argType="string"/>
+    </fragment>
+</navigation>

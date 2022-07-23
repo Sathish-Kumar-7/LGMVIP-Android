@@ -5,55 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.lgm_covidtrackerapp.databinding.FragmentStateDetailBinding
+import com.example.lgm_covidtrackerapp.model.CovidViewModel
+import com.example.lgm_covidtrackerapp.recyclerview.DistrictStateRecyclerViewAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [StateDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StateDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var binding: FragmentStateDetailBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_state_detail, container, false)
+        binding = FragmentStateDetailBinding.inflate(layoutInflater)
+        val state = CovidViewModel.getStateData(arguments?.getString("stateName")?:"")
+        binding.stateTextView.text = state?.name
+        binding.confirmedTV.text =  getString(R.string.confirmed,(state?.confirmed?:0).toString())
+        binding.activeTV.text = getString(R.string.active,(state?.active?:0).toString())
+        binding.migrateTV.text = getString(R.string.migrate,(state?.migrate?:0).toString())
+        binding.deceasedTV.text = getString(R.string.deceased,(state?.deceased?:0).toString())
+        binding.recoveredTV.text = getString(R.string.recovered,(state?.recovered?:0).toString())
+        binding.deltaConfirmedTV.text = getString(R.string.confirmed,(state?.delta?.confirmed?:0).toString())
+        binding.deltaDeceasedTV.text = getString(R.string.deceased,(state?.delta?.deceased?:0).toString())
+        binding.deltaRecoveredTV.text = getString(R.string.recovered,(state?.delta?.recovered?:0).toString())
+        binding.districtRecyclerView.adapter = DistrictStateRecyclerViewAdapter(requireContext(),state!!)
+        binding.districtRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StateDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StateDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
